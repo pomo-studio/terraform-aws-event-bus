@@ -1,5 +1,8 @@
 # terraform-aws-event-bus
 
+[![Terraform Validation](https://github.com/pomo-studio/terraform-aws-event-bus/actions/workflows/terraform.yml/badge.svg)](https://github.com/pomo-studio/terraform-aws-event-bus/actions/workflows/terraform.yml)
+[![Terraform Registry](https://img.shields.io/badge/terraform-registry-844FBA?logo=terraform)](https://registry.terraform.io/modules/pomo-studio/event-bus/aws)
+
 Terraform module for shared AWS EventBridge bus infrastructure — the foundation layer for event-driven microservices architectures.
 
 - Multi-region bus deployed to primary + DR simultaneously — same name in both regions, single module call
@@ -125,7 +128,7 @@ Conditional:
 | Tool | Version |
 |------|---------|
 | Terraform | `>= 1.5.0` |
-| AWS provider | `~> 5.0` |
+| AWS provider | `>= 5.0, < 7.0` |
 
 ## License
 
