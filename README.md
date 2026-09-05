@@ -71,31 +71,67 @@ module "bus" {
 }
 ```
 
-## Variables
+<!-- BEGIN_TF_DOCS -->
+## Requirements
 
-| Name | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `string` | required | Bus name — used as-is for the EventBridge bus and as prefix for all related resources |
-| `enable_dr` | `bool` | `true` | Deploy a matching bus in the DR region. Disable for dev/staging. |
-| `enable_schema_registry` | `bool` | `true` | Create an EventBridge Schema Registry in the primary region |
-| `enable_archive` | `bool` | `true` | Enable event archiving on both buses |
-| `archive_retention_days` | `number` | `0` | Days to retain archived events. `0` = indefinite. |
-| `enable_cross_region_routing` | `bool` | `false` | Route all primary bus events to the DR bus. Requires `enable_dr = true`. |
-| `allowed_publisher_arns` | `list(string)` | `[]` | IAM principal ARNs for cross-account bus resource policy. Empty = same-account only. |
-| `tags` | `map(string)` | `{}` | Tags applied to all resources |
+| Name | Version |
+| ---- | ------- |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.0, < 7.0 |
+
+## Providers
+
+| Name | Version |
+| ---- | ------- |
+| <a name="provider_aws.dr"></a> [aws.dr](#provider\_aws.dr) | 6.63.0 |
+| <a name="provider_aws.primary"></a> [aws.primary](#provider\_aws.primary) | 6.63.0 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+| ---- | ---- |
+| [aws_cloudwatch_event_archive.dr](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_archive) | resource |
+| [aws_cloudwatch_event_archive.primary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_archive) | resource |
+| [aws_cloudwatch_event_bus.dr](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_bus) | resource |
+| [aws_cloudwatch_event_bus.primary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_bus) | resource |
+| [aws_cloudwatch_event_bus_policy.dr](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_bus_policy) | resource |
+| [aws_cloudwatch_event_bus_policy.primary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_bus_policy) | resource |
+| [aws_cloudwatch_event_rule.cross_region](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule) | resource |
+| [aws_cloudwatch_event_target.cross_region](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
+| [aws_iam_role.cross_region](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy.cross_region](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_schemas_registry.primary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/schemas_registry) | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+| ---- | ----------- | ---- | ------- | :------: |
+| <a name="input_allowed_publisher_arns"></a> [allowed\_publisher\_arns](#input\_allowed\_publisher\_arns) | IAM principal ARNs allowed to publish to this bus via resource policy. Leave empty when all publishers are in the same account. | `list(string)` | `[]` | no |
+| <a name="input_archive_retention_days"></a> [archive\_retention\_days](#input\_archive\_retention\_days) | Days to retain archived events. 0 = indefinite retention. | `number` | `0` | no |
+| <a name="input_enable_archive"></a> [enable\_archive](#input\_enable\_archive) | Enable event archiving on both buses for replay capability | `bool` | `true` | no |
+| <a name="input_enable_cross_region_routing"></a> [enable\_cross\_region\_routing](#input\_enable\_cross\_region\_routing) | Automatically route all primary bus events to the DR bus. Requires enable\_dr = true. | `bool` | `false` | no |
+| <a name="input_enable_dr"></a> [enable\_dr](#input\_enable\_dr) | Deploy a matching bus in the DR region (aws.dr provider). Disable for dev/staging to reduce cost. Non-production when false. | `bool` | `true` | no |
+| <a name="input_enable_schema_registry"></a> [enable\_schema\_registry](#input\_enable\_schema\_registry) | Create an EventBridge Schema Registry in the primary region for event contract documentation. Requires EventBridge Schemas to be available in the primary region. | `bool` | `true` | no |
+| <a name="input_name"></a> [name](#input\_name) | Bus name — used as-is for the EventBridge bus and as prefix for all related resources | `string` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | Tags applied to all resources | `map(string)` | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
-|------|-------------|
-| `bus_name_primary` | EventBridge bus name — primary region |
-| `bus_arn_primary` | EventBridge bus ARN — primary region |
-| `bus_name_dr` | EventBridge bus name — DR region. Null if `enable_dr = false`. |
-| `bus_arn_dr` | EventBridge bus ARN — DR region. Null if `enable_dr = false`. |
-| `schema_registry_name` | Schema Registry name. Null if `enable_schema_registry = false`. |
-| `archive_name_primary` | Archive name — primary region. Null if `enable_archive = false`. |
-| `archive_name_dr` | Archive name — DR region. Null if `enable_archive = false` or `enable_dr = false`. |
-| `cross_region_rule_arn` | Cross-region routing rule ARN. Null if `enable_cross_region_routing = false`. |
+| ---- | ----------- |
+| <a name="output_archive_name_dr"></a> [archive\_name\_dr](#output\_archive\_name\_dr) | EventBridge archive name — DR region. Null if enable\_archive = false or enable\_dr = false. |
+| <a name="output_archive_name_primary"></a> [archive\_name\_primary](#output\_archive\_name\_primary) | EventBridge archive name — primary region. Null if enable\_archive = false. |
+| <a name="output_bus_arn_dr"></a> [bus\_arn\_dr](#output\_bus\_arn\_dr) | EventBridge bus ARN — DR region. Null if enable\_dr = false. |
+| <a name="output_bus_arn_primary"></a> [bus\_arn\_primary](#output\_bus\_arn\_primary) | EventBridge bus ARN — primary region |
+| <a name="output_bus_name_dr"></a> [bus\_name\_dr](#output\_bus\_name\_dr) | EventBridge bus name — DR region. Null if enable\_dr = false. |
+| <a name="output_bus_name_primary"></a> [bus\_name\_primary](#output\_bus\_name\_primary) | EventBridge bus name — primary region |
+| <a name="output_cross_region_rule_arn"></a> [cross\_region\_rule\_arn](#output\_cross\_region\_rule\_arn) | ARN of the cross-region routing rule. Null if enable\_cross\_region\_routing = false. |
+| <a name="output_schema_registry_name"></a> [schema\_registry\_name](#output\_schema\_registry\_name) | EventBridge Schema Registry name. Null if enable\_schema\_registry = false. |
+<!-- END_TF_DOCS -->
 
 ## What it creates
 
@@ -124,13 +160,6 @@ Conditional:
 
 - [`examples/basic`](examples/basic/) — minimal bus, no cross-region routing
 - [`examples/complete`](examples/complete/) — cross-region replication, cross-account publishers
-
-## Requirements
-
-| Tool | Version |
-|------|---------|
-| Terraform | `>= 1.5.0` |
-| AWS provider | `>= 5.0, < 7.0` |
 
 ## License
 
