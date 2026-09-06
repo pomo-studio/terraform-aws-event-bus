@@ -75,14 +75,14 @@ module "bus" {
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.0, < 7.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_aws.dr"></a> [aws.dr](#provider\_aws.dr) | 6.63.0 |
 | <a name="provider_aws.primary"></a> [aws.primary](#provider\_aws.primary) | 6.63.0 |
 
@@ -93,7 +93,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [aws_cloudwatch_event_archive.dr](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_archive) | resource |
 | [aws_cloudwatch_event_archive.primary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_archive) | resource |
 | [aws_cloudwatch_event_bus.dr](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_bus) | resource |
@@ -109,7 +109,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_allowed_publisher_arns"></a> [allowed\_publisher\_arns](#input\_allowed\_publisher\_arns) | IAM principal ARNs allowed to publish to this bus via resource policy. Leave empty when all publishers are in the same account. | `list(string)` | `[]` | no |
 | <a name="input_archive_retention_days"></a> [archive\_retention\_days](#input\_archive\_retention\_days) | Days to retain archived events. 0 = indefinite retention. | `number` | `0` | no |
 | <a name="input_enable_archive"></a> [enable\_archive](#input\_enable\_archive) | Enable event archiving on both buses for replay capability | `bool` | `true` | no |
@@ -122,7 +122,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_archive_name_dr"></a> [archive\_name\_dr](#output\_archive\_name\_dr) | EventBridge archive name — DR region. Null if enable\_archive = false or enable\_dr = false. |
 | <a name="output_archive_name_primary"></a> [archive\_name\_primary](#output\_archive\_name\_primary) | EventBridge archive name — primary region. Null if enable\_archive = false. |
 | <a name="output_bus_arn_dr"></a> [bus\_arn\_dr](#output\_bus\_arn\_dr) | EventBridge bus ARN — DR region. Null if enable\_dr = false. |
