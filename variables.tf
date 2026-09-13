@@ -1,5 +1,5 @@
 variable "name" {
-  description = "Bus name — used as-is for the EventBridge bus and as prefix for all related resources"
+  description = "Bus name: used as-is for the EventBridge bus and as prefix for all related resources"
   type        = string
 
   validation {
