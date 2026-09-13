@@ -1,20 +1,20 @@
 output "bus_name_primary" {
-  description = "EventBridge bus name — primary region"
+  description = "EventBridge bus name: primary region"
   value       = aws_cloudwatch_event_bus.primary.name
 }
 
 output "bus_arn_primary" {
-  description = "EventBridge bus ARN — primary region"
+  description = "EventBridge bus ARN: primary region"
   value       = aws_cloudwatch_event_bus.primary.arn
 }
 
 output "bus_name_dr" {
-  description = "EventBridge bus name — DR region. Null if enable_dr = false."
+  description = "EventBridge bus name: DR region. Null if enable_dr = false."
   value       = var.enable_dr ? aws_cloudwatch_event_bus.dr[0].name : null
 }
 
 output "bus_arn_dr" {
-  description = "EventBridge bus ARN — DR region. Null if enable_dr = false."
+  description = "EventBridge bus ARN: DR region. Null if enable_dr = false."
   value       = var.enable_dr ? aws_cloudwatch_event_bus.dr[0].arn : null
 }
 
@@ -24,12 +24,12 @@ output "schema_registry_name" {
 }
 
 output "archive_name_primary" {
-  description = "EventBridge archive name — primary region. Null if enable_archive = false."
+  description = "EventBridge archive name: primary region. Null if enable_archive = false."
   value       = var.enable_archive ? aws_cloudwatch_event_archive.primary[0].name : null
 }
 
 output "archive_name_dr" {
-  description = "EventBridge archive name — DR region. Null if enable_archive = false or enable_dr = false."
+  description = "EventBridge archive name: DR region. Null if enable_archive = false or enable_dr = false."
   value       = var.enable_dr && var.enable_archive ? aws_cloudwatch_event_archive.dr[0].name : null
 }
 
