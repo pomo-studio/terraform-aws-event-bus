@@ -118,8 +118,8 @@ Conditional:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws.dr"></a> [aws.dr](#provider\_aws.dr) | 6.64.0 |
-| <a name="provider_aws.primary"></a> [aws.primary](#provider\_aws.primary) | 6.64.0 |
+| <a name="provider_aws.dr"></a> [aws.dr](#provider\_aws.dr) | 6.66.0 |
+| <a name="provider_aws.primary"></a> [aws.primary](#provider\_aws.primary) | 6.66.0 |
 
 ## Modules
 
